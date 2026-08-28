@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "metrics": {
+    "production_loc": 2302,
+    "production_files": 31,
+    "production_packages": 13,
+    "test_files": 14,
+    "production_functions": 184,
+    "decision_points": 323
+  },
+  "persistence": {
+    "module": "go.etcd.io/bbolt",
+    "entities": [
+      "Record",
+      "AuditEvent",
+      "Workflow",
+      "Attachment"
+    ],
+    "reopen_test": "TestPersistenceSurvivesReopen"
+  },
+  "workflows": [
+    {
+      "steps": [
+        "登记社群公告并计算字数",
+        "提交公告进入审核队列",
+        "审核通过并发布公告",
+        "活动结束后归档公告"
+      ],
+      "test": "TestWorkflowCreateReviewArchive"
+    },
+    {
+      "steps": [
+        "按社群和关键词查询公告",
+        "选择分页结果并读取说明",
+        "变更草稿内容并更新字数",
+        "审核后发布最新版本"
+      ],
+      "test": "TestWorkflowSearchUpdatePublish"
+    },
+    {
+      "steps": [
+        "导入确定性的公告数据",
+        "校验必填字段和字数",
+        "持久化有效公告与审计事件",
+        "生成导入报告并导出结果"
+      ],
+      "test": "TestWorkflowImportReport"
+    }
+  ]
+}
